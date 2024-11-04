@@ -20,14 +20,19 @@ ORDER_BY_MAP = {
 
 @planets_bp.post("")
 def create_planet():
+    
     request_body = request.get_json()
     
-    new_planet = Planet.from_dict(request_body)
+    try:
+        new_planet = Planet.from_dict(request_body)
+    except KeyError as error:
+        response = {"message": f"invalid request: missing {error.args[0]}"}
+        abort(make_response(response, 400))
+
     db.session.add(new_planet)
     db.session.commit()
 
     response_body = new_planet.to_dict()
-
     return response_body, 201
 
 @planets_bp.get("")
