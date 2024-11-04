@@ -2,6 +2,7 @@ from flask import Blueprint, abort, make_response, request, Response
 from app.models.planet import Planet
 from app.db import db
 from sqlalchemy import desc
+from app.routes.routes_utilities import validate_model
 
 planets_bp = Blueprint("planets_bp", __name__, url_prefix=("/planets"))
 
@@ -97,20 +98,3 @@ def delete_planet(planet_id):
 
     return Response(status=204, mimetype="application/json")
 
-
-# Helper Functions
-def validate_model(cls, model_id):
-    try:
-        model_id = int(model_id)
-    except:
-        response = {"msg": f"{cls.__name__} id {model_id} is invalid."}
-        abort(make_response(response,400))
-    
-    query = db.select(cls).where(cls.id == model_id)
-    model = db.session.scalar(query)
-
-    if not model:
-        response = {"msg": f"{cls.__name__} id {model_id} not found."}
-        abort(make_response(response,404))
-
-    return model
