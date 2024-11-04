@@ -99,18 +99,18 @@ def delete_planet(planet_id):
 
 
 # Helper Functions
-def validate_planet_id(planet_id):
+def validate_model(cls, model_id):
     try:
-        planet_id = int(planet_id)
+        model_id = int(model_id)
     except:
-        response = {"msg": f"Planet id {planet_id} is invalid."}
+        response = {"msg": f"{cls.__name__} id {model_id} is invalid."}
         abort(make_response(response,400))
     
-    query = db.select(Planet).where(Planet.id == planet_id)
-    planet = db.session.scalar(query)
+    query = db.select(cls).where(cls.id == model_id)
+    model = db.session.scalar(query)
 
-    if not planet:
-        response = {"msg": f"Planet id {planet_id} not found."}
+    if not model:
+        response = {"msg": f"{cls.__name__} id {model_id} not found."}
         abort(make_response(response,404))
 
-    return planet
+    return model
