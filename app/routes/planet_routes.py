@@ -40,13 +40,13 @@ def get_all_planets():
     query = db.select(Planet)
 
     if all_params.get("name"):
-        query = query.where(Planet.name.ilike(f"%{all_params.get("name")}%"))
+        query = query.where(Planet.name.ilike(f"%{all_params.get('name')}%"))
     
     if all_params.get("description"):
-        query = query.where(Planet.description.ilike(f"%{all_params.get("description")}%"))
+        query = query.where(Planet.description.ilike(f"%{all_params.get('description')}%"))
 
     if all_params.get("size"):
-        query = query.where(Planet.size.ilike(f"%{all_params.get("size")}%"))
+        query = query.where(Planet.size.ilike(f"%{all_params.get('size')}%"))
     
     if all_params.get("moons"):
         # query = query.where(Planet.moons == all_params.get("moons"))
